@@ -18,11 +18,11 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.tecticom.entrypoints=http"
-        - "traefik.http.routers.tecticom.rule=Host(`tecticom.byronrm.com`)"
+        - "traefik.http.routers.tecticom.rule=Host(`jessica.byronrm.com`)"
         - "traefik.http.middlewares.tecticom-https-redirect.redirectscheme.scheme=https"
         - "traefik.http.routers.tecticom.middlewares=tecticom-https-redirect"
         - "traefik.http.routers.tecticom-secure.entrypoints=https"
-        - "traefik.http.routers.tecticom-secure.rule=Host(`tecticom.byronrm.com`)"
+        - "traefik.http.routers.tecticom-secure.rule=Host(`jessica.byronrm.com`)"
         - "traefik.http.routers.tecticom-secure.tls=true"
         - "traefik.http.routers.tecticom-secure.tls.certresolver=http"
         - "traefik.http.routers.tecticom-secure.service=tecticom"
