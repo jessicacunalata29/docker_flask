@@ -3,30 +3,34 @@ version: '3.8'
 services:
   tecticom:
     image: ghcr.io/jessicacunalata29/docker_flask:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
     networks:
       - traefik-public
+
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 10s
       restart_policy:
         condition: on-failure
+
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.tecticom.entrypoints=http"
+
+        # HTTP
         - "traefik.http.routers.tecticom.rule=Host(`jessica.byronrm.com`)"
+        - "traefik.http.routers.tecticom.entrypoints=http"
+
+        # Redirect HTTPS
         - "traefik.http.middlewares.tecticom-https-redirect.redirectscheme.scheme=https"
         - "traefik.http.routers.tecticom.middlewares=tecticom-https-redirect"
-        - "traefik.http.routers.tecticom-secure.entrypoints=https"
+
+        # HTTPS router
         - "traefik.http.routers.tecticom-secure.rule=Host(`jessica.byronrm.com`)"
+        - "traefik.http.routers.tecticom-secure.entrypoints=https"
         - "traefik.http.routers.tecticom-secure.tls=true"
         - "traefik.http.routers.tecticom-secure.tls.certresolver=http"
-        - "traefik.http.routers.tecticom-secure.service=tecticom"
+
+        # Service port inside container
         - "traefik.http.services.tecticom.loadbalancer.server.port=5000"
+
         - "traefik.docker.network=traefik-public"
 
 networks:
